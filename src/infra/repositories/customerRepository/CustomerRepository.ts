@@ -34,4 +34,17 @@ export class CustomerRepository {
       throw error;
     }
   }
+
+  async getById(id: string): Promise<Customer | null> {
+    const params: DocumentClient.GetItemInput = {
+      TableName: DYNAMO_TABLE_NAME_CUSTOMER,
+      Key: {
+        id,
+      },
+    };
+    const customerDb = await this.ddbService.get(params);
+    if (!customerDb) return null;
+    const customer = customerFactoryFromDb.buildCustomerFromDb(customerDb);
+    return customer;
+  }
 }

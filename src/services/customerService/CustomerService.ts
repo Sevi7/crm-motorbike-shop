@@ -7,4 +7,8 @@ export class CustomerService {
   async put(customer: Customer): Promise<Customer> {
     return this.customerRepository.put(customer);
   }
+
+  async getById(id: string): Promise<Customer | null> {
+    return this.customerRepository.getById(id);
+  }
 }

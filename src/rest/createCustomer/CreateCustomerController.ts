@@ -12,13 +12,16 @@ export class CreateCustomerController extends LambdaBaseController {
     try {
       const body = event.body ? JSON.parse(event.body) : {};
 
-      const { error, value }: { error?: ValidationError; value: CreateCustomerDto } =
+      const {
+        error,
+        value: createCustomerDto,
+      }: { error?: ValidationError; value: CreateCustomerDto } =
         createCustomerConstraints.validate(body);
       if (error) {
         return this.validationFailed(error.message);
       }
 
-      const customer = customerFactoryFromDto.buildCustomerFromDto(value);
+      const customer = customerFactoryFromDto.buildCustomerFromDto(createCustomerDto);
       const customerFromDb = await customerService.put(customer);
       return this.created(customerFromDb);
     } catch (error: any) {

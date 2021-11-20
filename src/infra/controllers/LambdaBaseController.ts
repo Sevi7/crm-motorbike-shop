@@ -44,6 +44,10 @@ export abstract class LambdaBaseController {
     return this.buildResponse(400, { message });
   }
 
+  notFound(message?: string): APIGatewayProxyResultV2 {
+    return this.buildResponse(404, { message });
+  }
+
   methodNotAllowed(): APIGatewayProxyResultV2 {
     return this.buildResponse(405, { message: 'Method not allowed' });
   }
