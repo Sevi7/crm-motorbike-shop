@@ -5,11 +5,15 @@ import { GetCustomerController } from './getCustomer/GetCustomerController';
 import { UpdateCustomerController } from './updateCustomer/UpdateCustomerController';
 import { DeleteCustomerController } from './deleteCustomer/DeleteCustomerController';
 import { AddCreditController } from './addCredit/AddCreditController';
+import { ListCustomersController } from './listCustomers/ListCustomersController';
 
 export class AppController extends LambdaBaseController {
   async runImplementation(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
     if (event.routeKey === 'POST /customers') {
       return new CreateCustomerController().run(event);
+    }
+    if (event.routeKey === 'GET /customers') {
+      return new ListCustomersController().run(event);
     }
     if (event.routeKey === 'GET /customers/<id>') {
       return new GetCustomerController().run(event);

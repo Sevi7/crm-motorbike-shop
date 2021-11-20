@@ -19,4 +19,12 @@ export class CustomerService {
   async deleteById(id: string): Promise<Customer | null> {
     return this.customerRepository.deleteById(id);
   }
+
+  async listCustomersSortedByAvailableCredit(): Promise<Customer[]> {
+    const customers = await this.customerRepository.getAllCustomers();
+    const customersSortedByAvailableCreditDsc = customers.sort(
+      (c1, c2) => c2.availableCredit - c1.availableCredit
+    );
+    return customersSortedByAvailableCreditDsc;
+  }
 }

@@ -38,7 +38,7 @@ export default class CrmMotorbikeShopStack extends Stack {
 
     crmMotorbikeShopApi.addRoutes({
       path: '/customers',
-      methods: [HttpMethod.POST],
+      methods: [HttpMethod.POST, HttpMethod.GET],
       integration: crmMotorbikeShopAppIntegration,
     });
 

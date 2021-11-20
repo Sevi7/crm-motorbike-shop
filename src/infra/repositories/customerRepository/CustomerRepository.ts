@@ -83,4 +83,13 @@ export class CustomerRepository {
     const customer = customerFactoryFromDb.buildCustomerFromDb(customerDb);
     return customer;
   }
+
+  async getAllCustomers(): Promise<Customer[]> {
+    const params: DocumentClient.ScanInput = {
+      TableName: DYNAMO_TABLE_NAME_CUSTOMER,
+    };
+    const customersDb = await this.ddbService.scan(params);
+    const customers = customersDb.map(customerFactoryFromDb.buildCustomerFromDb);
+    return customers;
+  }
 }

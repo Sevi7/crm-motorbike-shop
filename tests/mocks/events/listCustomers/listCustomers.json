@@ -1,0 +1,5 @@
+{
+  "version": "2.0",
+  "routeKey": "GET /customers",
+  "isBase64Encoded": false
+}
