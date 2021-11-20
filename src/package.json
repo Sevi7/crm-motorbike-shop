@@ -8,6 +8,11 @@
   "author": "Adrian",
   "license": "ISC",
   "dependencies": {
-    "joi": "^17.4.2"
+    "aws-sdk": "~2.1033.0",
+    "joi": "^17.4.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.3"
   }
 }

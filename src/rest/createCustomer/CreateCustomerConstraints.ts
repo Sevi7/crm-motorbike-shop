@@ -13,5 +13,6 @@ export const createCustomerConstraints = Joi.object({
   state: Joi.string(),
   country: Joi.string(),
   availableCredit: Joi.number().greater(0),
-}).with('address', ['postalCode', 'city', 'country'])
+})
+  .with('address', ['postalCode', 'city', 'country'])
   .xor('email', 'phoneNumber');

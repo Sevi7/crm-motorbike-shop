@@ -1,3 +1,11 @@
 {
-  "app": "node dist/bin/crm-motorbike-shop"
+  "app": "node dist/bin/crm-motorbike-shop",
+  "context": {
+    "test": {
+      "Environment": "test",
+      "Parameters": {
+        "DYNAMO_TABLE_NAME_CUSTOMER": "Customers"
+      }
+    }
+  }
 }

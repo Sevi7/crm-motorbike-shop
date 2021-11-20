@@ -1,14 +1,32 @@
-import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
-import { LambdaBaseController } from "../../infra/controllers/LambdaBaseController";
-import { createCustomerConstraints } from "./CreateCustomerConstraints";
+import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
+import { ValidationError } from 'joi';
+import { LambdaBaseController } from '../../infra/controllers/LambdaBaseController';
+import { createCustomerConstraints } from './CreateCustomerConstraints';
+import { customerService } from '../../services/customerService';
+import { CreateCustomerDto } from './CreateCustomerDto';
+import { customerFactoryFromDto } from '../customerFactoryFromDto';
+import { AlreadyExistsError } from '../../shared/errors/AlreadyExistsError';
 
 export class CreateCustomerController extends LambdaBaseController {
-  async runImplementation(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2>{
-    const body = event.body ? JSON.parse(event.body) : {};
-    const { error, value } = createCustomerConstraints.validate(body);
-    if (error) {
-      return this.validationFailed(error.message);
+  async runImplementation(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
+    try {
+      const body = event.body ? JSON.parse(event.body) : {};
+
+      const { error, value }: { error?: ValidationError; value: CreateCustomerDto } =
+        createCustomerConstraints.validate(body);
+      if (error) {
+        return this.validationFailed(error.message);
+      }
+
+      const customer = customerFactoryFromDto.buildCustomerFromDto(value);
+      const customerFromDb = await customerService.put(customer);
+      return this.created(customerFromDb);
+    } catch (error: any) {
+      if (error instanceof AlreadyExistsError) {
+        return this.conflict('Customer already exists');
+      }
+      console.error('FATAL', error);
+      return this.fail();
     }
-    return this.created(value);
   }
 }

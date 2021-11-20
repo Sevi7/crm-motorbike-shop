@@ -1,4 +1,4 @@
-export interface CustomerConstructorParams {
+interface CustomerConstructorParams {
   id: string;
   name: string;
   lastName: string;
@@ -143,5 +143,23 @@ export class Customer {
 
   get availableCredit() {
     return this._availableCredit;
+  }
+
+  toJson() {
+    return {
+      id: this._id,
+      name: this._name,
+      lastName: this._lastName,
+      identityDocument: this._identityDocument,
+      birthDate: this._birthDate,
+      email: this._email,
+      phoneNumber: this._phoneNumber,
+      address: this._address,
+      postalCode: this._postalCode,
+      city: this._city,
+      state: this._state,
+      country: this._country,
+      availableCredit: this._availableCredit,
+    };
   }
 }
