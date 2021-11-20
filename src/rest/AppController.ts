@@ -2,6 +2,7 @@ import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { LambdaBaseController } from '../infra/controllers/LambdaBaseController';
 import { CreateCustomerController } from './createCustomer/CreateCustomerController';
 import { GetCustomerController } from './getCustomer/GetCustomerController';
+import { UpdateCustomerController } from './updateCustomer/UpdateCustomerController';
 
 export class AppController extends LambdaBaseController {
   async runImplementation(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
@@ -10,6 +11,9 @@ export class AppController extends LambdaBaseController {
     }
     if (event.requestContext.http.method === 'GET') {
       return new GetCustomerController().run(event);
+    }
+    if (event.requestContext.http.method === 'PUT') {
+      return new UpdateCustomerController().run(event);
     }
     return this.methodNotAllowed();
   }

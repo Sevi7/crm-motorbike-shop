@@ -3,6 +3,7 @@ import { DynamoDbService } from '../../providers/dynamoDbService/DynamoDbService
 import { Customer } from '../../../domain/models/Customer';
 import { customerFactoryFromDb } from '../customerFactoryFromDb';
 import { AlreadyExistsError } from '../../../shared/errors/AlreadyExistsError';
+import { NotExistsError } from '../../../shared/errors/NotExistsError';
 import { DynamoDbErrors } from '../../../shared/errors/DynamoDbErrors';
 
 const { DYNAMO_TABLE_NAME_CUSTOMER } = <
@@ -14,7 +15,7 @@ const { DYNAMO_TABLE_NAME_CUSTOMER } = <
 export class CustomerRepository {
   constructor(private ddbService: DynamoDbService) {}
 
-  async put(customer: Customer): Promise<Customer> {
+  async create(customer: Customer): Promise<Customer> {
     const params: DocumentClient.PutItemInput = {
       TableName: DYNAMO_TABLE_NAME_CUSTOMER,
       Item: customer.toJson(),
@@ -46,5 +47,26 @@ export class CustomerRepository {
     if (!customerDb) return null;
     const customer = customerFactoryFromDb.buildCustomerFromDb(customerDb);
     return customer;
+  }
+
+  async update(customer: Customer): Promise<Customer> {
+    const params: DocumentClient.PutItemInput = {
+      TableName: DYNAMO_TABLE_NAME_CUSTOMER,
+      Item: customer.toJson(),
+      ConditionExpression: 'id = :id',
+      ExpressionAttributeValues: {
+        ':id': customer.id,
+      },
+    };
+
+    try {
+      await this.ddbService.put(params);
+      return customer;
+    } catch (error: any) {
+      if (error instanceof DynamoDbErrors && error.code === 'ConditionalCheckFailedException') {
+        throw new NotExistsError('CustomerNotExists');
+      }
+      throw error;
+    }
   }
 }

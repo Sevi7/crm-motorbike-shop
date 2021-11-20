@@ -22,8 +22,8 @@ export class CreateCustomerController extends LambdaBaseController {
       }
 
       const customer = customerFactoryFromDto.buildCustomerFromDto(createCustomerDto);
-      const customerFromDb = await customerService.put(customer);
-      return this.created(customerFromDb);
+      const customerFromDb = await customerService.create(customer);
+      return this.created(customerFromDb.toJson());
     } catch (error: any) {
       if (error instanceof AlreadyExistsError) {
         return this.conflict('Customer already exists');

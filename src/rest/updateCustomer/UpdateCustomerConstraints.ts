@@ -1,8 +1,7 @@
 import Joi from 'joi';
 
-export const createCustomerConstraints = Joi.object({
-  name: Joi.string().required(),
-  lastName: Joi.string().required(),
+export const updateCustomerConstraints = Joi.object({
+  id: Joi.string().uuid().required(),
   identityDocument: Joi.string().alphanum(),
   birthDate: Joi.date().iso().cast('number'),
   email: Joi.string().email(),
@@ -12,7 +11,6 @@ export const createCustomerConstraints = Joi.object({
   city: Joi.string(),
   state: Joi.string(),
   country: Joi.string(),
-  availableCredit: Joi.number().greater(0),
 })
   .with('address', ['postalCode', 'city', 'country'])
   .or('email', 'phoneNumber');
