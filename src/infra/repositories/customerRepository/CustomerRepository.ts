@@ -69,4 +69,18 @@ export class CustomerRepository {
       throw error;
     }
   }
+
+  async deleteById(id: string): Promise<Customer | null> {
+    const params: DocumentClient.DeleteItemInput = {
+      TableName: DYNAMO_TABLE_NAME_CUSTOMER,
+      Key: {
+        id,
+      },
+      ReturnValues: 'ALL_OLD',
+    };
+    const customerDb = await this.ddbService.delete(params);
+    if (!customerDb) return null;
+    const customer = customerFactoryFromDb.buildCustomerFromDb(customerDb);
+    return customer;
+  }
 }

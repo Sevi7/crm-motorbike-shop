@@ -15,4 +15,8 @@ export class CustomerService {
   async update(customer: Customer): Promise<Customer> {
     return this.customerRepository.update(customer);
   }
+
+  async deleteById(id: string): Promise<Customer | null> {
+    return this.customerRepository.deleteById(id);
+  }
 }
