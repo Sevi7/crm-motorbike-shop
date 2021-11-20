@@ -9,8 +9,8 @@ describe('create customer', () => {
       body: JSON.stringify({
         name: 'John',
         lastName: 'Doe',
-        email: 'john@doe.com'
-      })
+        email: 'john@doe.com',
+      }),
     };
     const res = <APIGatewayProxyStructuredResultV2>await lambdaHandler(event);
     expect(res.statusCode).toBe(201);
@@ -29,12 +29,12 @@ describe('create customer', () => {
         routeKey,
         body: JSON.stringify({
           name: 'John',
-        })
+        }),
       };
       const res = <APIGatewayProxyStructuredResultV2>await lambdaHandler(event);
       expect(res.statusCode).toBe(400);
       expect(JSON.parse(res.body || '')).toEqual({
-        message: '\"lastName\" is required'
+        message: '"lastName" is required',
       });
     });
 
@@ -43,14 +43,14 @@ describe('create customer', () => {
         routeKey,
         body: JSON.stringify({
           name: 'John',
-          lastName: 'Doe'
-        })
+          lastName: 'Doe',
+        }),
       };
       const res = <APIGatewayProxyStructuredResultV2>await lambdaHandler(event);
       expect(res.statusCode).toBe(400);
       expect(JSON.parse(res.body || '')).toEqual({
-        message: '\"value\" must contain at least one of [email, phoneNumber]'
+        message: '"value" must contain at least one of [email, phoneNumber]',
       });
     });
   });
-})
+});
