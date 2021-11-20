@@ -8,9 +8,9 @@ const { DYNAMO_TABLE_NAME_CUSTOMER } = <
   }
 >process.env;
 
-describe('update customer', () => {
-  const routeKey = 'PUT /customers/<id>';
-  describe('update customer valid input', () => {
+describe('add credit customer', () => {
+  const routeKey = 'POST /customers/<id>/credit';
+  describe('add credit valid input', () => {
     test('customer exists', async () => {
       await dynamoDbService.put({
         TableName: DYNAMO_TABLE_NAME_CUSTOMER,
@@ -19,7 +19,6 @@ describe('update customer', () => {
           name: 'John',
           lastName: 'Doe',
           email: 'john@doe.com',
-          phoneNumber: '123456789',
           availableCredit: 0,
         },
       });
@@ -30,7 +29,7 @@ describe('update customer', () => {
           id: '2a9dab47-02a8-4dfc-92c6-434c02d7eb71',
         },
         body: JSON.stringify({
-          email: 'johnny@doe.com',
+          amount: 12,
         }),
       });
       const res = <APIGatewayProxyStructuredResultV2>await lambdaHandler(event);
@@ -39,8 +38,8 @@ describe('update customer', () => {
         id: '2a9dab47-02a8-4dfc-92c6-434c02d7eb71',
         name: 'John',
         lastName: 'Doe',
-        email: 'johnny@doe.com',
-        availableCredit: 0,
+        email: 'john@doe.com',
+        availableCredit: 12,
       });
     });
 
@@ -51,7 +50,7 @@ describe('update customer', () => {
           id: '2a9dab47-02a8-4dfc-92c6-434c02d7eb71',
         },
         body: JSON.stringify({
-          email: 'johnny@doe.com',
+          amount: 12,
         }),
       });
       const res = <APIGatewayProxyStructuredResultV2>await lambdaHandler(event);
@@ -62,21 +61,21 @@ describe('update customer', () => {
     });
   });
 
-  describe('update customer invalid input', () => {
-    test('name cannot be updated', async () => {
+  describe('add credit invalid input', () => {
+    test('amount cannot be negative', async () => {
       const event = <APIGatewayProxyEventV2>(<unknown>{
         routeKey,
         pathParameters: {
           id: '2a9dab47-02a8-4dfc-92c6-434c02d7eb71',
         },
         body: JSON.stringify({
-          name: 'John',
+          amount: -12,
         }),
       });
       const res = <APIGatewayProxyStructuredResultV2>await lambdaHandler(event);
       expect(res.statusCode).toBe(400);
       expect(JSON.parse(res.body || '')).toEqual({
-        message: '"name" is not allowed',
+        message: '"amount" must be greater than 0',
       });
     });
   });
