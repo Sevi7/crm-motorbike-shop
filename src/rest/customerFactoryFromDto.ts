@@ -4,9 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const customerFactoryFromDto = {
   buildCustomerFromDto(customerDto: CreateCustomerDto): Customer {
+    const { availableCredit, ...rest } = customerDto;
     return new Customer({
       id: uuidv4(),
-      ...customerDto,
+      availableCredit: availableCredit || 0,
+      ...rest,
     });
   },
 };

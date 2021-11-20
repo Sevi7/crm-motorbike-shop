@@ -1,3 +1,5 @@
+import { GeneralError } from '../../shared/errors/GeneralError';
+
 interface CustomerConstructorParams {
   id: string;
   name: string;
@@ -161,5 +163,12 @@ export class Customer {
       country: this._country,
       availableCredit: this._availableCredit,
     };
+  }
+
+  addCredit(amount: number): void {
+    if (amount < 0) {
+      throw new GeneralError('Amount cannot be negative', 'AddCreditNegativeAmount');
+    }
+    this._availableCredit += amount;
   }
 }

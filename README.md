@@ -34,7 +34,10 @@ An API for the customer management of an online motorbike shop.
       sam local invoke crmMotorbikeShopApp -e tests/mocks/events/createCustomer/createCustomerValid.json --debug-port 5858 --docker-network crm-motorbike-shop-network
       ```
     - Go to VSCode section __Run and Debug__ and select `Attach to SAM crmMotorbikeShopApp`
-
+  - To create a local HTTP server that hosts all the lambda functions:
+    ```
+    sam local start-api --warm-containers EAGER --docker-network crm-motorbike-shop-network
+    ```
 
 ### Deployment in AWS (not needed)
   - The first time you need to bootstrap your AWS environment

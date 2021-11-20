@@ -1,8 +1,9 @@
 {
   "version": "2.0",
-  "routeKey": "DELETE /customers/<id>",
+  "routeKey": "POST /customers/<id>/credit",
   "pathParameters": {
     "id": "2a9dab47-02a8-4dfc-92c6-434c02d7eb71"
   },
+  "body":"{\"amount\":12}",
   "isBase64Encoded": false
 }

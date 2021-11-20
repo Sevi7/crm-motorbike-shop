@@ -1,19 +1,6 @@
 {
   "version": "2.0",
-  "requestContext": {
-    "http": {
-      "method": "PUT",
-      "path": "/my/path",
-      "protocol": "HTTP/1.1",
-      "sourceIp": "IP",
-      "userAgent": "agent"
-    },
-    "requestId": "id",
-    "routeKey": "$default",
-    "stage": "$default",
-    "time": "12/Mar/2020:19:03:58 +0000",
-    "timeEpoch": 1583348638390
-  },
+  "routeKey": "PUT /customers/<id>",
   "pathParameters": {
     "id": "2a9dab47-02a8-4dfc-92c6-434c02d7eb71"
   },

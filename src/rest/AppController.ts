@@ -4,21 +4,25 @@ import { CreateCustomerController } from './createCustomer/CreateCustomerControl
 import { GetCustomerController } from './getCustomer/GetCustomerController';
 import { UpdateCustomerController } from './updateCustomer/UpdateCustomerController';
 import { DeleteCustomerController } from './deleteCustomer/DeleteCustomerController';
+import { AddCreditController } from './addCredit/AddCreditController';
 
 export class AppController extends LambdaBaseController {
   async runImplementation(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
-    if (event.requestContext.http.method === 'POST') {
+    if (event.routeKey === 'POST /customers') {
       return new CreateCustomerController().run(event);
     }
-    if (event.requestContext.http.method === 'GET') {
+    if (event.routeKey === 'GET /customers/<id>') {
       return new GetCustomerController().run(event);
     }
-    if (event.requestContext.http.method === 'PUT') {
+    if (event.routeKey === 'PUT /customers/<id>') {
       return new UpdateCustomerController().run(event);
     }
-    if (event.requestContext.http.method === 'DELETE') {
+    if (event.routeKey === 'DELETE /customers/<id>') {
       return new DeleteCustomerController().run(event);
     }
-    return this.methodNotAllowed();
+    if (event.routeKey === 'POST /customers/<id>/credit') {
+      return new AddCreditController().run(event);
+    }
+    return this.notFound('Route not found');
   }
 }

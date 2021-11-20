@@ -1,6 +1,8 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { AlreadyExistsError } from '../../shared/errors/AlreadyExistsError';
 import { DynamoDbErrors } from '../../shared/errors/DynamoDbErrors';
+import { NotExistsError } from '../../shared/errors/NotExistsError';
+import { GeneralError } from '../../shared/errors/GeneralError';
 
 export abstract class LambdaBaseController {
   abstract runImplementation(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2>;
@@ -15,6 +17,12 @@ export abstract class LambdaBaseController {
       }
       if (error instanceof AlreadyExistsError) {
         this.conflict();
+      }
+      if (error instanceof NotExistsError) {
+        this.notFound();
+      }
+      if (error instanceof GeneralError) {
+        this.generalError(error.message);
       }
       console.error('FATAL', error);
       return this.fail();
@@ -41,6 +49,10 @@ export abstract class LambdaBaseController {
   }
 
   validationFailed(message?: string): APIGatewayProxyResultV2 {
+    return this.buildResponse(400, { message });
+  }
+
+  generalError(message?: string): APIGatewayProxyResultV2 {
     return this.buildResponse(400, { message });
   }
 
