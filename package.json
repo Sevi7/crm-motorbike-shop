@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "echo \"This is a serverless application!\" && exit 0",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --config tests/jest.config.ts",
     "prebuild": "rimraf dist",
     "build": "tsc",
     "postbuild": "cp -R src/node_modules dist/src/node_modules",
@@ -19,14 +19,15 @@
   "author": "Adrian",
   "license": "ISC",
   "dependencies": {
-    "@aws-cdk/core": "~1.132.0",
     "@aws-cdk/aws-apigatewayv2": "~1.132.0",
     "@aws-cdk/aws-apigatewayv2-integrations": "~1.132.0",
     "@aws-cdk/aws-dynamodb": "~1.132.0",
-    "@aws-cdk/aws-lambda": "~1.132.0"
+    "@aws-cdk/aws-lambda": "~1.132.0",
+    "@aws-cdk/core": "~1.132.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.85",
+    "@types/jest": "^27.0.3",
     "@types/node": "^16.11.9",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
@@ -36,7 +37,10 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^27.3.1",
     "prettier": "^2.4.1",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.4.0",
     "typescript": "~4.5.2"
   }
 }
