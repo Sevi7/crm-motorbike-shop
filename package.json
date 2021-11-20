@@ -10,6 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prebuild": "rimraf dist",
     "build": "tsc",
+    "postbuild": "cp -R src/node_modules dist/src/node_modules",
     "watch": "tsc -w --preserveWatchOutput",
     "cdk": "cdk",
     "cdk:synth": "cdk synth --no-staging > template.yaml",
@@ -18,9 +19,11 @@
   "author": "Adrian",
   "license": "ISC",
   "dependencies": {
-    "@aws-cdk/core": "~1.132.0"
+    "@aws-cdk/core": "~1.132.0",
+    "@aws-cdk/aws-lambda": "~1.132.0"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.85",
     "@types/node": "^16.11.9",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
