@@ -1,0 +1,36 @@
+{
+  "name": "crm-motorbike-shop",
+  "description": "An API for the customer management of an online motorbike shop",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=v14.18.1"
+  },
+  "scripts": {
+    "start": "echo \"This is a serverless application!\" && exit 0",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "watch": "tsc -w --preserveWatchOutput",
+    "cdk": "cdk",
+    "cdk:synth": "cdk synth --no-staging > template.yaml",
+    "cdk:deploy": "cdk deploy"
+  },
+  "author": "Adrian",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-cdk/core": "~1.132.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "aws-cdk": "~1.132.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-typescript": "^16.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1",
+    "typescript": "~4.5.2"
+  }
+}
