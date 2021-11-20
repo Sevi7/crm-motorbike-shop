@@ -1,11 +1,21 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from 'aws-lambda';
 import { ValidationError } from 'joi';
+import { v4 as uuidv4 } from 'uuid';
 import { LambdaBaseController } from '../../infra/controllers/LambdaBaseController';
 import { createCustomerConstraints } from './CreateCustomerConstraints';
 import { customerService } from '../../services/customerService';
 import { CreateCustomerDto } from './CreateCustomerDto';
-import { customerFactoryFromDto } from '../customerFactoryFromDto';
 import { AlreadyExistsError } from '../../shared/errors/AlreadyExistsError';
+import { Customer } from '../../domain/models/Customer';
+
+const buildCustomerFromDto = (customerDto: CreateCustomerDto): Customer => {
+  const { availableCredit, ...rest } = customerDto;
+  return new Customer({
+    id: uuidv4(),
+    availableCredit: availableCredit || 0,
+    ...rest,
+  });
+};
 
 export class CreateCustomerController extends LambdaBaseController {
   async runImplementation(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
@@ -21,7 +31,7 @@ export class CreateCustomerController extends LambdaBaseController {
         return this.validationFailed(error.message);
       }
 
-      const customer = customerFactoryFromDto.buildCustomerFromDto(createCustomerDto);
+      const customer = buildCustomerFromDto(createCustomerDto);
       const customerFromDb = await customerService.create(customer);
       return this.created(customerFromDb.toJson());
     } catch (error: any) {

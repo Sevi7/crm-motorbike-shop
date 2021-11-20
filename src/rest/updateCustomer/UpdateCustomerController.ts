@@ -4,7 +4,6 @@ import { LambdaBaseController } from '../../infra/controllers/LambdaBaseControll
 import { updateCustomerConstraints } from './UpdateCustomerConstraints';
 import { customerService } from '../../services/customerService';
 import { UpdateCustomerDto } from './UpdateCustomerDto';
-import { customerFactoryFromDto } from '../customerFactoryFromDto';
 import { NotExistsError } from '../../shared/errors/NotExistsError';
 
 export class UpdateCustomerController extends LambdaBaseController {
@@ -19,6 +18,7 @@ export class UpdateCustomerController extends LambdaBaseController {
       }: { error?: ValidationError; value: UpdateCustomerDto } = updateCustomerConstraints.validate(
         { ...pathParameters, ...body }
       );
+
       if (error) {
         return this.validationFailed(error.message);
       }

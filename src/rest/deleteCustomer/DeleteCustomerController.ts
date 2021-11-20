@@ -8,8 +8,13 @@ import { DeleteCustomerDto } from './DeleteCustomerDto';
 export class DeleteCustomerController extends LambdaBaseController {
   async runImplementation(event: APIGatewayProxyEventV2): Promise<APIGatewayProxyResultV2> {
     try {
-      const { error, value: deleteCustomerDto }: { error?: ValidationError; value: DeleteCustomerDto } =
-        deleteCustomerConstraints.validate(event.pathParameters || {});
+      const {
+        error,
+        value: deleteCustomerDto,
+      }: { error?: ValidationError; value: DeleteCustomerDto } = deleteCustomerConstraints.validate(
+        event.pathParameters || {}
+      );
+
       if (error) {
         return this.validationFailed(error.message);
       }
