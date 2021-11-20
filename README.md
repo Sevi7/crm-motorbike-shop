@@ -24,7 +24,7 @@ An API for the customer management of an online motorbike shop.
   npm run cdk:synth
   ```
 - Use AWS SAM CLI for testing locally the resources of the CloudFormation template generated.
-  - To invoke the lambda function locally:
+  - To invoke the lambda function locally (you can use a different event by replacing the file path after `-e`):
     ```
     sam local invoke crmMotorbikeShopApp -e tests/mocks/events/createCustomer/createCustomerValid.json --docker-network crm-motorbike-shop-network | jq
     ```
